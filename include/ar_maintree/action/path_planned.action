@@ -1,0 +1,12 @@
+#goal
+
+int32 start
+int32[] goals
+
+#result
+
+int32[] path
+
+#feedback
+
+string status 
