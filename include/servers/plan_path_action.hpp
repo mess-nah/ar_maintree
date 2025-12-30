@@ -4,6 +4,7 @@
 #include <rclcpp/rclcpp.hpp>
 #include <rclcpp_action/rclcpp_action.hpp>
 #include "ar_maintree/action/plan_path.hpp"
+#include <std_msgs/msg/int32_multi_array.hpp>
 
 #include <unordered_map>
 #include <vector>
