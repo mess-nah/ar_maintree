@@ -17,11 +17,14 @@ add_executable(forest_nav_node
   src/servers/forestnavServer.cpp
   include/robotlib/controllers/pid.cpp 
 )
-
+add_executable(plan_path_client src/plan_path_client.cpp)
 
 ament_target_dependencies(
+  ar_maintree
   forest_nav_node
+  plan_path_client
   rclcpp
+  rclcpp_action
   std_msgs
   geometry_msgs
   sensor_msgs
@@ -31,6 +34,9 @@ install(
   DESTINATION include
 )
 install(TARGETS forest_nav_node
+  DESTINATION lib/${PROJECT_NAME}
+)
+install(TARGETS plan_path_client
   DESTINATION lib/${PROJECT_NAME}
 )
 

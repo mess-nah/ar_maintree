@@ -1,0 +1,9 @@
+# Goal 
+int32 start_node
+int32[] goal_nodes
+
+# Result
+int32[] path
+
+# Feedback
+string status

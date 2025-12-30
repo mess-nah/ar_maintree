@@ -1,8 +1,9 @@
-#ifndef PATH_PLANNED_HPP
-#define PATH_PLANNED_HPP
+#ifndef PLAN_PATH_ACTION_HPP
+#define PLAN_PATH_ACTION_HPP
 
 #include <rclcpp/rclcpp.hpp>
-#include <std_msgs/msg/int32_multi_array.hpp>
+#include <rclcpp_action/rclcpp_action.hpp>
+#include "ar_maintree/action/plan_path.hpp"
 
 #include <unordered_map>
 #include <vector>
@@ -10,10 +11,10 @@
 #include <limits>
 #include <algorithm>
 
-class DijkstraPlanner : public rclcpp::Node
+class DijkstraPlannerAction : public rclcpp::Node
 {
 public:
-    DijkstraPlanner();
+    DijkstraPlannerAction();
 
 private:
     
@@ -38,7 +39,7 @@ private:
     int start_node_;
     std::vector<int> goal_nodes_;
 
-    rclcpp::Publisher<std_msgs::msg::Int32MultiArray>::SharedPtr pub_;
+    rclcpp_action::Server<ar_maintree::action::PlanPath>::SharedPtr action_server_;
     rclcpp::Subscription<std_msgs::msg::Int32MultiArray>::SharedPtr sub_ar_;
     rclcpp::Subscription<std_msgs::msg::Int32MultiArray>::SharedPtr sub_mr_;
     rclcpp::Subscription<std_msgs::msg::Int32MultiArray>::SharedPtr sub_fake_;
@@ -49,7 +50,23 @@ private:
     void fakeCallback(const std_msgs::msg::Int32MultiArray::SharedPtr msg);
 
    
-    void compute();
+    rclcpp_action::GoalResponse handleGoal(
+        const rclcpp_action::GoalUUID& uuid,
+        std::shared_ptr<const ar_maintree::action::PlanPath::Goal> goal
+    );
+
+    rclcpp_action::CancelResponse handleCancel(
+        const std::shared_ptr<rclcpp_action::ServerGoalHandle<ar_maintree::action::PlanPath>> goal_handle
+    );
+
+    void handleAccepted(
+        const std::shared_ptr<rclcpp_action::ServerGoalHandle<ar_maintree::action::PlanPath>> goal_handle
+    );
+
+    void execute(
+        const std::shared_ptr<rclcpp_action::ServerGoalHandle<ar_maintree::action::PlanPath>> goal_handle
+    );
+
     void applyWeights();
 
     void dijkstra(
